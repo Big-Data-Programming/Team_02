@@ -12,12 +12,6 @@ import pandas as pd
 import numpy as np
 import re
 
-API_key = 'uY3t53pR6igMyhNF1BUZbYlBn'
-API_Secert = 'uc6oBlwN9zHi7js4B5utMZ7VV4FmTRHIsINgTIHcdhGr1P5i1H'
-Bearer_token = 'AAAAAAAAAAAAAAAAAAAAAAk0aAEAAAAAFhrXFJkWmCqw8sslEoiX5F6Yv%2Fk%3DqrztMnGtiAyRXplSQH4jjyAFD2nUpiBcWG1fHqqap3cBJWVbyF'
-Access_token = '1501634192475627534-wKXPDIodmZWRUzV3mz3mAYPWb6Bwwn'
-Access_token_secret = 'qUPowcO67nVHb4ibl6uuGaHp9xOTCMD1etIAEBF86hlo6'
-
 dir(tweepy)
 
 # Auth = tweepy.OAuthHandler(API_key,API_Secert)
