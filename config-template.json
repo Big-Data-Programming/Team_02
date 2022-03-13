@@ -1,7 +1,9 @@
 {
-    "API_Key": "Get from twitter and replace here",
-    "API_Secret": "Get from twitter and replace here",
-    "Bearer_token": "Get from twitter and replace here",
-    "Access_token": "Get from twitter and replace here",
-    "Access_token_secret": "Get from twitter and replace here"
+    "api_key": "Get from twitter and replace here",
+    "api_secret": "Get from twitter and replace here",
+    "bearer_token": "Get from twitter and replace here",
+    "access_token": "Get from twitter and replace here",
+    "access_token_secret": "Get from twitter and replace here",
+    "tracking_uri": "http://127.0.0.1:5000",
+    "tracking_database_uri": "sqlite:///mlflow.sqlite"
 }

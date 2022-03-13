@@ -1,13 +1,15 @@
-import pandas as pd
-import nltk
-
 import re
 import string
+import json
 
+import pandas as pd
+import numpy as np
 import spacy
 import transformers
 import torch 
-import numpy as np
+import mlflow
+import nltk
+
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from tensorflow.keras.preprocessing.sequence import pad_sequences
@@ -16,6 +18,11 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 class TweetAnalytics:
 
   def __init__(self):
+    with open('./config.json') as config_file:
+      config = json.load(config_file)
+    mlflow.set_tracking_uri(config['tracking_uri'])
+    registry_uri = config['tracking_database_uri']
+    mlflow.tracking.set_tracking_uri(registry_uri)
     try:
       nltk.download('wordnet')
       nltk.download('stopwords')
@@ -26,7 +33,6 @@ class TweetAnalytics:
     self.stopwords = nltk.corpus.stopwords.words('english')
     self.tokenizer = transformers.DistilBertTokenizer.from_pretrained('distilbert-base-uncased')
     self.model = transformers.DistilBertModel.from_pretrained('distilbert-base-uncased')
-    print("initialization")
 
   def _clean_tweet(self, tweet):
     for t in self.nlp(tweet):
@@ -61,10 +67,20 @@ class TweetAnalytics:
   def train_with_random_forest_classifier(self):
     clf = RandomForestClassifier(max_depth=2, random_state=0)
     clf.fit(self.train_X, self.train_y)
+    return clf
+
+  def train_with_mlflow(self, model_function, model_name):
+    with mlflow.start_run() as run: 
+      mlflow.sklearn.autolog()
+      model = model_function()
+      mlflow.sklearn.log_model(model,"model", registered_model_name=model_name)
     
 
 if __name__ =="__main__":
   tweet_analytics = TweetAnalytics()
   tweet_analytics.read_and_fetch_data('./data/tweets_1000.csv')
   tweet_analytics.setup_data_for_ml()
-  tweet_analytics.train_with_random_forest_classifier()
+  tweet_analytics.train_with_mlflow(
+    tweet_analytics.train_with_random_forest_classifier,
+    "Random Forest Classifier"
+  )

@@ -5,3 +5,8 @@ Include
 pyvenv.cfg
 config.json
 mlflow.db
+mlflow.sqlite
+share
+dags
+logs
+plugins
